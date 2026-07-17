@@ -64,6 +64,10 @@ use wpmvc\debug\Debug;
                         class="wpmvc-nav-link wpmvc-text-start wpmvc-d-flex wpmvc-align-items-center wpmvc-gap-2<?php echo 0 === $index ? ' wpmvc-active' : ''; ?>"
                         data-wpmvc-debug-tab="<?php echo esc_attr( $tab->get_id() ); ?>"
                     >
+                        <?php if ( $tab->get_icon() ) : ?>
+                            <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><?php echo $tab->get_icon(); // phpcs:ignore WordPress.Security.EscapeOutput -- static SVG markup from the tab class. ?></svg>
+                        <?php endif; ?>
+
                         <?php echo esc_html( $tab->get_label() ); ?>
 
                         <?php if ( null !== $tab->get_badge() ) : ?>

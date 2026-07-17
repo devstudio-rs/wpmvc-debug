@@ -38,6 +38,16 @@ abstract class Tab {
     }
 
     /**
+     * Inner SVG markup for the sidebar icon (paths for a 16×16 viewBox);
+     * empty string renders no icon.
+     *
+     * @return string
+     */
+    public function get_icon() : string {
+        return '';
+    }
+
+    /**
      * Data passed to the view as `$data`.
      *
      * @return array

@@ -42,6 +42,7 @@ class Debug extends Component {
     public $tabs = array(
         tabs\Overview_Tab::class,
         tabs\Applications_Tab::class,
+        tabs\Environment_Tab::class,
     );
 
     /**
