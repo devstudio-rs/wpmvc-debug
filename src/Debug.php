@@ -43,6 +43,7 @@ class Debug extends Component {
         tabs\Overview_Tab::class,
         tabs\Applications_Tab::class,
         tabs\Components_Tab::class,
+        tabs\Database_Tab::class,
         tabs\Environment_Tab::class,
     );
 
@@ -54,6 +55,15 @@ class Debug extends Component {
 
         static::$root = dirname( __DIR__ );
         static::$web  = home_url( str_replace( ABSPATH, '', static::$root ) );
+
+        // wpdb checks SAVEQUERIES on every query, so defining it here starts
+        // query capture from this point on. Queries executed before the
+        // component is constructed are not captured — define SAVEQUERIES in
+        // wp-config.php to capture the whole request. An explicit `false`
+        // in wp-config.php is respected (the Database tab explains it).
+        if ( ! defined( 'SAVEQUERIES' ) ) {
+            define( 'SAVEQUERIES', true );
+        }
 
         add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_assets' ) );
         add_action( 'wp_footer', array( $this, 'render_debugger' ) );
