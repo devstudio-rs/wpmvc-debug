@@ -89,7 +89,7 @@ use wpmvc\debug\Debug;
                         <?php echo esc_html( $tab->get_label() ); ?>
 
                         <?php if ( null !== $tab->get_badge() ) : ?>
-                            <span class="wpmvc-badge wpmvc-rounded-pill wpmvc-text-bg-secondary wpmvc-ms-auto"><?php echo esc_html( $tab->get_badge() ); ?></span>
+                            <span class="wpmvc-badge wpmvc-rounded-pill wpmvc-text-bg-primary wpmvc-ms-auto"><?php echo esc_html( $tab->get_badge() ); ?></span>
                         <?php endif; ?>
                     </button>
                 <?php endforeach; ?>

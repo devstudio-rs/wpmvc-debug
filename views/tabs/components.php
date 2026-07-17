@@ -11,7 +11,7 @@
     <div class="wpmvc-me-auto">
         <h5 class="wpmvc-mb-1 wpmvc-d-flex wpmvc-align-items-center wpmvc-gap-2">
             <?php echo esc_html( 'Components' ); ?>
-            <span class="wpmvc-badge wpmvc-rounded-pill wpmvc-text-bg-secondary"><?php echo esc_html( count( $data['components'] ) ); ?></span>
+            <span class="wpmvc-badge wpmvc-rounded-pill wpmvc-text-bg-primary"><?php echo esc_html( count( $data['components'] ) ); ?></span>
         </h5>
         <p class="wpmvc-text-body-secondary wpmvc-mb-0"><?php echo esc_html( 'List of all registered components across applications.' ); ?></p>
     </div>

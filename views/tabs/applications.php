@@ -8,7 +8,7 @@
 ?>
 <h5 class="wpmvc-mb-1 wpmvc-d-flex wpmvc-align-items-center wpmvc-gap-2">
     <?php echo esc_html( 'Applications' ); ?>
-    <span class="wpmvc-badge wpmvc-rounded-pill wpmvc-text-bg-secondary"><?php echo esc_html( count( $data['apps'] ) ); ?></span>
+    <span class="wpmvc-badge wpmvc-rounded-pill wpmvc-text-bg-primary"><?php echo esc_html( count( $data['apps'] ) ); ?></span>
 </h5>
 <p class="wpmvc-text-body-secondary wpmvc-mb-4"><?php echo esc_html( 'List of all loaded WPMVC applications.' ); ?></p>
 
