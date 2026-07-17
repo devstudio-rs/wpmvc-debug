@@ -1,0 +1,8 @@
+# Keep documentation (and other dev-only files) out of the Composer package.
+# `export-ignore` excludes these from the dist archive Composer downloads, so
+# the heavy screenshots never ship to installs — they remain on the repo for
+# GitHub/Packagist to render the README.
+/docs           export-ignore
+/.gitattributes export-ignore
+/.gitignore     export-ignore
+/CHANGELOG.md   export-ignore
