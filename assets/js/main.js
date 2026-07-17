@@ -1,0 +1,1 @@
+document.addEventListener("DOMContentLoaded",()=>{const t=document.querySelector(".wpmvc-debug");t&&t.addEventListener("click",e=>{if(!e.target.closest("[data-wpmvc-debug-theme-toggle]"))return;const d="dark"===t.getAttribute("data-bs-theme")?"light":"dark";t.setAttribute("data-bs-theme",d)})});

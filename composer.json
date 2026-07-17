@@ -1,0 +1,20 @@
+{
+    "name": "devstudio-rs/wpmvc-debug",
+    "description": "Debug toolbar for the WPMVC framework",
+    "type": "library",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "wpmvc\\debug\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "DevStudio",
+            "email": "kontakt@devstudio.rs"
+        }
+    ],
+    "require": {
+        "php": ">=7.0"
+    }
+}
