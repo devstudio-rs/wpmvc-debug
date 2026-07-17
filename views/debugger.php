@@ -58,17 +58,30 @@ use wpmvc\debug\Debug;
 
         <div class="wpmvc-debug-body">
             <nav class="wpmvc-debug-sidebar wpmvc-nav wpmvc-nav-pills wpmvc-flex-column">
-                <button
-                    type="button"
-                    class="wpmvc-nav-link wpmvc-active wpmvc-text-start"
-                    data-wpmvc-debug-tab="overview"
-                ><?php echo esc_html( 'Overview' ); ?></button>
+                <?php foreach ( $tabs as $index => $tab ) : ?>
+                    <button
+                        type="button"
+                        class="wpmvc-nav-link wpmvc-text-start wpmvc-d-flex wpmvc-align-items-center wpmvc-gap-2<?php echo 0 === $index ? ' wpmvc-active' : ''; ?>"
+                        data-wpmvc-debug-tab="<?php echo esc_attr( $tab->get_id() ); ?>"
+                    >
+                        <?php echo esc_html( $tab->get_label() ); ?>
+
+                        <?php if ( null !== $tab->get_badge() ) : ?>
+                            <span class="wpmvc-badge wpmvc-rounded-pill wpmvc-text-bg-secondary wpmvc-ms-auto"><?php echo esc_html( $tab->get_badge() ); ?></span>
+                        <?php endif; ?>
+                    </button>
+                <?php endforeach; ?>
             </nav>
 
             <div class="wpmvc-debug-content">
-                <div data-wpmvc-debug-pane="overview">
-                    <?php require __DIR__ . '/tabs/overview.php'; ?>
-                </div>
+                <?php foreach ( $tabs as $index => $tab ) : ?>
+                    <div
+                        data-wpmvc-debug-pane="<?php echo esc_attr( $tab->get_id() ); ?>"
+                        <?php echo 0 !== $index ? 'class="wpmvc-d-none"' : ''; ?>
+                    >
+                        <?php $tab->render(); ?>
+                    </div>
+                <?php endforeach; ?>
             </div>
         </div>
 

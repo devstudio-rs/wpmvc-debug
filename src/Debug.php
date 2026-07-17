@@ -34,6 +34,17 @@ class Debug extends Component {
     public static $web;
 
     /**
+     * Tab class names, in display order. A component attribute, so the set
+     * of tabs can be overridden/extended via the component config.
+     *
+     * @var string[]
+     */
+    public $tabs = array(
+        tabs\Overview_Tab::class,
+        tabs\Applications_Tab::class,
+    );
+
+    /**
      * @param array $config
      */
     public function __construct( $config = array() ) {
@@ -62,7 +73,20 @@ class Debug extends Component {
      * @return void
      */
     public function render_debugger() {
+        $tabs = $this->get_tabs();
+
         require static::$root . '/views/debugger.php';
+    }
+
+    /**
+     * Instantiated tabs, in display order.
+     *
+     * @return tabs\Tab[]
+     */
+    public function get_tabs() : array {
+        return array_map( function ( $class ) {
+            return new $class();
+        }, $this->tabs );
     }
 
 }
