@@ -6,6 +6,11 @@ new features and changes, **patch** (`0.0.x`) for bug fixes and internal
 refactors. `1.0.0` is reserved for when the feature set is considered
 complete.
 
+## 0.3.4
+
+- Floating button: replaced the "WPMVC" text with the "W" logo as an inline
+  SVG (rounded-stroke mark, inherits the button's white color).
+
 ## 0.3.3
 
 - Overview: zeroed the card-body padding on the Applications and Components

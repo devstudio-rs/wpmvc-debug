@@ -17,7 +17,11 @@ use wpmvc\debug\Debug;
         class="wpmvc-debug-fab"
         data-wpmvc-debug-toggle
         aria-label="<?php echo esc_attr( 'Toggle WPMVC Debugger' ); ?>"
-    >WPMVC</button>
+    >
+        <svg class="wpmvc-debug-fab-logo" viewBox="0 0 400 300" fill="none" aria-hidden="true">
+            <path d="M60 60 140 240 200 140 260 240 340 60" stroke="currentColor" stroke-width="58" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+    </button>
 
     <section class="wpmvc-debug-panel" role="dialog" aria-label="<?php echo esc_attr( 'WPMVC Debugger' ); ?>">
 

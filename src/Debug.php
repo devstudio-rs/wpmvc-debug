@@ -14,7 +14,7 @@ use wpmvc\base\Component;
  */
 class Debug extends Component {
 
-    const VERSION = '0.3.3';
+    const VERSION = '0.3.4';
 
     /**
      * Absolute filesystem path to the package root, e.g. `/var/www/html/wpmvc-debug`.
