@@ -74,9 +74,25 @@ class Debug extends Component {
      * @return void
      */
     public function render_debugger() {
-        $tabs = $this->get_tabs();
+        $tabs  = $this->get_tabs();
+        $chips = $this->get_header_chips();
 
         require static::$root . '/views/debugger.php';
+    }
+
+    /**
+     * Header info chips: PHP/WP versions, request time and peak memory.
+     * Measured at render time (wp_footer), so the values cover the whole page.
+     *
+     * @return array
+     */
+    public function get_header_chips() : array {
+        return array(
+            array( 'label' => 'PHP', 'value' => PHP_VERSION ),
+            array( 'label' => 'WP', 'value' => get_bloginfo( 'version' ) ),
+            array( 'label' => 'Time', 'value' => number_format( (float) timer_stop() * 1000 ) . ' ms' ),
+            array( 'label' => 'Memory', 'value' => size_format( memory_get_peak_usage( true ) ) ),
+        );
     }
 
     /**
