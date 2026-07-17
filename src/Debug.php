@@ -44,6 +44,7 @@ class Debug extends Component {
         tabs\Applications_Tab::class,
         tabs\Components_Tab::class,
         tabs\Database_Tab::class,
+        tabs\Logs_Tab::class,
         tabs\Environment_Tab::class,
     );
 
@@ -67,6 +68,7 @@ class Debug extends Component {
 
         add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_assets' ) );
         add_action( 'wp_footer', array( $this, 'render_debugger' ) );
+        add_action( 'wp_ajax_wpmvc_debug_clear_log', array( $this, 'ajax_clear_log' ) );
     }
 
     /**
@@ -77,6 +79,34 @@ class Debug extends Component {
     public function enqueue_assets() {
         wp_enqueue_style( 'wpmvc-debug', static::$web . '/assets/css/main.css', array(), self::VERSION );
         wp_enqueue_script( 'wpmvc-debug', static::$web . '/assets/js/main.js', array(), self::VERSION, true );
+
+        wp_localize_script( 'wpmvc-debug', 'wpmvcDebug', array(
+            'ajaxUrl' => admin_url( 'admin-ajax.php' ),
+            'nonce'   => wp_create_nonce( 'wpmvc-debug' ),
+        ) );
+    }
+
+    /**
+     * AJAX: clear a log ('wordpress' or 'logger'). Admins only, nonce-checked.
+     *
+     * @return void
+     */
+    public function ajax_clear_log() {
+        if ( ! current_user_can( 'manage_options' ) ) {
+            wp_send_json_error( array( 'message' => 'Forbidden' ), 403 );
+        }
+
+        check_ajax_referer( 'wpmvc-debug', 'nonce' );
+
+        $target = isset( $_POST['target'] ) ? sanitize_key( wp_unslash( $_POST['target'] ) ) : '';
+
+        if ( ! in_array( $target, array( 'wordpress', 'logger' ), true ) ) {
+            wp_send_json_error( array( 'message' => 'Unknown target' ), 400 );
+        }
+
+        $cleared = ( new tabs\Logs_Tab() )->clear( $target );
+
+        wp_send_json_success( array( 'cleared' => $cleared ) );
     }
 
     /**
