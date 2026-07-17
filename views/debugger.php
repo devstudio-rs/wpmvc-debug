@@ -93,6 +93,17 @@ use wpmvc\debug\Debug;
                         <?php endif; ?>
                     </button>
                 <?php endforeach; ?>
+
+                <div class="wpmvc-debug-sidebar-footer wpmvc-d-none wpmvc-d-md-block wpmvc-small">
+                    <div class="wpmvc-fw-semibold"><?php echo esc_html( 'WPMVC Framework' ); ?></div>
+                    <div class="wpmvc-text-body-secondary"><?php echo esc_html( 'Version ' . \wpmvc\App::$version ); ?></div>
+                    <a
+                        class="wpmvc-text-body-secondary"
+                        href="https://wpmvc.devstudio.rs"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                    >https://wpmvc.devstudio.rs</a>
+                </div>
             </nav>
 
             <div class="wpmvc-debug-content">
