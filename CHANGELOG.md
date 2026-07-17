@@ -6,6 +6,27 @@ new features and changes, **patch** (`0.0.x`) for bug fixes and internal
 refactors. `1.0.0` is reserved for when the feature set is considered
 complete.
 
+## 0.4.2
+
+- Scheduled Jobs: moved the run/delete actions out of the row and into the
+  expanded accordion body as labelled buttons (bottom-left).
+
+## 0.4.1
+
+- Refactor: each tab now owns its AJAX handlers via `Tab::register_ajax()`
+  (called during `Debug` init). Moved the clear-log handler into `Logs_Tab`
+  and the run/delete-job handler into `Scheduled_Jobs_Tab`; `Debug` no
+  longer holds tab-specific endpoint logic. Shared `Tab::verify_ajax()`
+  guard (admin + nonce) and `Debug::NONCE` constant.
+
+## 0.4.0
+
+- **New tab: Scheduled Jobs (WP-Cron).** Lists every scheduled event from
+  `_get_cron_array()` with next run, recurrence, arguments and status, plus
+  summary stats. Admin-only per-row actions to run a job immediately or
+  delete it, via the `wp_ajax_wpmvc_debug_job` handler (nonce + capability
+  checked; args are looked up server-side, never taken from the client).
+
 ## 0.3.4
 
 - Floating button: replaced the "WPMVC" text with the "W" logo as an inline

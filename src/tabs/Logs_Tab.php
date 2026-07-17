@@ -41,6 +41,27 @@ class Logs_Tab extends Tab {
         return count( $data['wordpress']['entries'] ) + $data['wpmvc']['count'];
     }
 
+    public function register_ajax() {
+        add_action( 'wp_ajax_wpmvc_debug_clear_log', array( $this, 'ajax_clear_log' ) );
+    }
+
+    /**
+     * AJAX: clear a log ('wordpress' or 'logger').
+     *
+     * @return void
+     */
+    public function ajax_clear_log() {
+        $this->verify_ajax();
+
+        $target = isset( $_POST['target'] ) ? sanitize_key( wp_unslash( $_POST['target'] ) ) : '';
+
+        if ( ! in_array( $target, array( 'wordpress', 'logger' ), true ) ) {
+            wp_send_json_error( array( 'message' => 'Unknown target' ), 400 );
+        }
+
+        wp_send_json_success( array( 'cleared' => $this->clear( $target ) ) );
+    }
+
     public function get_data() : array {
         if ( null === $this->data ) {
             $this->data = array(

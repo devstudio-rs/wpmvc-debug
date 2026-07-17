@@ -14,7 +14,13 @@ use wpmvc\base\Component;
  */
 class Debug extends Component {
 
-    const VERSION = '0.3.4';
+    const VERSION = '0.4.2';
+
+    /** Shared nonce action for the debugger's AJAX endpoints. */
+    const NONCE = 'wpmvc-debug';
+
+    /** Memoized tab instances (see get_tabs()). */
+    private $tab_instances;
 
     /**
      * Absolute filesystem path to the package root, e.g. `/var/www/html/wpmvc-debug`.
@@ -45,6 +51,7 @@ class Debug extends Component {
         tabs\Components_Tab::class,
         tabs\Database_Tab::class,
         tabs\Logs_Tab::class,
+        tabs\Scheduled_Jobs_Tab::class,
         tabs\Environment_Tab::class,
     );
 
@@ -68,7 +75,12 @@ class Debug extends Component {
 
         add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_assets' ) );
         add_action( 'wp_footer', array( $this, 'render_debugger' ) );
-        add_action( 'wp_ajax_wpmvc_debug_clear_log', array( $this, 'ajax_clear_log' ) );
+
+        // Let each tab register its own AJAX handlers. Done here (not in
+        // render) because admin-ajax requests never reach wp_footer.
+        foreach ( $this->get_tabs() as $tab ) {
+            $tab->register_ajax();
+        }
     }
 
     /**
@@ -82,31 +94,8 @@ class Debug extends Component {
 
         wp_localize_script( 'wpmvc-debug', 'wpmvcDebug', array(
             'ajaxUrl' => admin_url( 'admin-ajax.php' ),
-            'nonce'   => wp_create_nonce( 'wpmvc-debug' ),
+            'nonce'   => wp_create_nonce( self::NONCE ),
         ) );
-    }
-
-    /**
-     * AJAX: clear a log ('wordpress' or 'logger'). Admins only, nonce-checked.
-     *
-     * @return void
-     */
-    public function ajax_clear_log() {
-        if ( ! current_user_can( 'manage_options' ) ) {
-            wp_send_json_error( array( 'message' => 'Forbidden' ), 403 );
-        }
-
-        check_ajax_referer( 'wpmvc-debug', 'nonce' );
-
-        $target = isset( $_POST['target'] ) ? sanitize_key( wp_unslash( $_POST['target'] ) ) : '';
-
-        if ( ! in_array( $target, array( 'wordpress', 'logger' ), true ) ) {
-            wp_send_json_error( array( 'message' => 'Unknown target' ), 400 );
-        }
-
-        $cleared = ( new tabs\Logs_Tab() )->clear( $target );
-
-        wp_send_json_success( array( 'cleared' => $cleared ) );
     }
 
     /**
@@ -137,14 +126,19 @@ class Debug extends Component {
     }
 
     /**
-     * Instantiated tabs, in display order.
+     * Instantiated tabs, in display order. Memoized so the same instances
+     * back both AJAX registration and rendering within a request.
      *
      * @return tabs\Tab[]
      */
     public function get_tabs() : array {
-        return array_map( function ( $class ) {
-            return new $class();
-        }, $this->tabs );
+        if ( null === $this->tab_instances ) {
+            $this->tab_instances = array_map( function ( $class ) {
+                return new $class();
+            }, $this->tabs );
+        }
+
+        return $this->tab_instances;
     }
 
 }

@@ -55,6 +55,28 @@ abstract class Tab {
     abstract public function get_data() : array;
 
     /**
+     * Register this tab's AJAX handlers. Called for every request (including
+     * admin-ajax) during Debug init. Override in tabs that need endpoints.
+     *
+     * @return void
+     */
+    public function register_ajax() {}
+
+    /**
+     * Guard an AJAX handler: admins only, nonce-checked. Terminates the
+     * request with a JSON error when either check fails.
+     *
+     * @return void
+     */
+    protected function verify_ajax() {
+        if ( ! current_user_can( 'manage_options' ) ) {
+            wp_send_json_error( array( 'message' => 'Forbidden' ), 403 );
+        }
+
+        check_ajax_referer( Debug::NONCE, 'nonce' );
+    }
+
+    /**
      * Render the tab's view.
      *
      * @return void
