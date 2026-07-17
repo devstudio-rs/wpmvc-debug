@@ -43,7 +43,7 @@ class Debug extends Component {
         static::$web  = home_url( str_replace( ABSPATH, '', static::$root ) );
 
         add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_assets' ) );
-        add_action( 'wp_footer', array( $this, 'render_toolbar' ) );
+        add_action( 'wp_footer', array( $this, 'render_debugger' ) );
     }
 
     /**
@@ -57,12 +57,12 @@ class Debug extends Component {
     }
 
     /**
-     * Render the toolbar container in the footer.
+     * Render the debugger UI (floating button + panel) in the footer.
      *
      * @return void
      */
-    public function render_toolbar() {
-        require __DIR__ . '/../views/toolbar.php';
+    public function render_debugger() {
+        require static::$root . '/views/debugger.php';
     }
 
 }
