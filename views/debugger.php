@@ -75,7 +75,7 @@ use wpmvc\debug\Debug;
         </header>
 
         <div class="wpmvc-debug-body">
-            <nav class="wpmvc-debug-sidebar wpmvc-nav wpmvc-nav-pills wpmvc-flex-column">
+            <nav class="wpmvc-debug-sidebar wpmvc-nav wpmvc-nav-pills wpmvc-flex-md-column">
                 <?php foreach ( $tabs as $index => $tab ) : ?>
                     <button
                         type="button"
