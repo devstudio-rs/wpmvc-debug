@@ -14,7 +14,7 @@ use wpmvc\base\Component;
  */
 class Debug extends Component {
 
-    const VERSION = '0.5.0';
+    const VERSION = '0.6.0';
 
     /** Shared nonce action for the debugger's AJAX endpoints. */
     const NONCE = 'wpmvc-debug';
@@ -53,6 +53,7 @@ class Debug extends Component {
         tabs\Logs_Tab::class,
         tabs\Events_Tab::class,
         tabs\Scheduled_Jobs_Tab::class,
+        tabs\Cache_Tab::class,
         tabs\Environment_Tab::class,
     );
 

@@ -6,6 +6,22 @@ new features and changes, **patch** (`0.0.x`) for bug fixes and internal
 refactors. `1.0.0` is reserved for when the feature set is considered
 complete.
 
+## 0.6.0
+
+- **New tab: Cache.** Three sub-tabs of what WordPress's caching layers
+  actually expose: **Object Cache** (backend class, persistent-drop-in
+  detection, this request's hits/misses/hit rate, and the per-group contents
+  with item counts and approximate sizes — read via reflection, since core's
+  `WP_Object_Cache::$cache` is private), **Transients** (every transient in
+  the options table with scope, expiry state and size, capped at the 200
+  largest), and **Autoloaded Options** (count + combined size, and the 30
+  largest). Admin-only actions via `wp_ajax_wpmvc_debug_cache` (nonce +
+  capability checked): flush the object cache — shown only when a
+  persistent drop-in is active — and delete expired transients.
+  Deliberately omitted from the concept design as unmeasurable in a
+  per-request tool: per-store hit rates, activity/eviction history charts,
+  and page/browser caches (they live outside PHP).
+
 ## 0.5.0
 
 - **New tab: Events.** The WordPress actions and filters fired during the
