@@ -14,7 +14,7 @@ use wpmvc\base\Component;
  */
 class Debug extends Component {
 
-    const VERSION = '0.4.2';
+    const VERSION = '0.5.0';
 
     /** Shared nonce action for the debugger's AJAX endpoints. */
     const NONCE = 'wpmvc-debug';
@@ -51,6 +51,7 @@ class Debug extends Component {
         tabs\Components_Tab::class,
         tabs\Database_Tab::class,
         tabs\Logs_Tab::class,
+        tabs\Events_Tab::class,
         tabs\Scheduled_Jobs_Tab::class,
         tabs\Environment_Tab::class,
     );
@@ -72,6 +73,10 @@ class Debug extends Component {
         if ( ! defined( 'SAVEQUERIES' ) ) {
             define( 'SAVEQUERIES', true );
         }
+
+        // Start hook capture now — like SAVEQUERIES above, anything fired
+        // before the component is constructed is not recorded.
+        collectors\Hook_Collector::start();
 
         add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_assets' ) );
         add_action( 'wp_footer', array( $this, 'render_debugger' ) );

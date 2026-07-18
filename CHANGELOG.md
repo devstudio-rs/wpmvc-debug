@@ -6,6 +6,28 @@ new features and changes, **patch** (`0.0.x`) for bug fixes and internal
 refactors. `1.0.0` is reserved for when the feature set is considered
 complete.
 
+## 0.5.0
+
+- **New tab: Events.** The WordPress actions and filters fired during the
+  request, captured via the `all` hook from the moment the component boots
+  (`collectors\Hook_Collector`). Fires of the same hook are aggregated into
+  one row (fire count + summed execution time, measured per fire with a
+  self-registered `PHP_INT_MAX`-priority end callback on the hook), and each
+  row expands to timing details plus the registered callbacks (priority,
+  callback, source, file:line — resolved via reflection at render time).
+  High-frequency noise hooks (translations, escaping, option/transient
+  reads) are excluded, unique hooks are hard-capped at 500, and capture is
+  skipped in admin/AJAX/cron requests. The list is sortable by the Time
+  column (longest first → shortest first → chronological). A **Timeline**
+  sub-tab charts every hook as a bar — offset at its first fire within the
+  request, width proportional to the total time spent in its callbacks.
+- New generic hook: `[data-wpmvc-debug-sort="<key>"]` column-header buttons
+  sort the `[data-wpmvc-debug-item]` rows in the same (sub-)pane by their
+  numeric `data-wpmvc-debug-sort-<key>` attribute, cycling
+  descending → ascending → original order.
+- Database: the query list is sortable by the Time column too (same
+  control as Events).
+
 ## 0.4.2
 
 - Scheduled Jobs: moved the run/delete actions out of the row and into the

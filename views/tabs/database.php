@@ -66,13 +66,25 @@ $wpmvc_debug_type_badges = array(
             <span>#</span>
             <span><?php echo esc_html( 'Type' ); ?></span>
             <span><?php echo esc_html( 'Query' ); ?></span>
-            <span class="wpmvc-text-end"><?php echo esc_html( 'Time' ); ?></span>
+            <span class="wpmvc-text-end">
+                <button type="button" class="wpmvc-debug-sort" data-wpmvc-debug-sort="time">
+                    <?php echo esc_html( 'Time' ); ?>
+                    <svg width="11" height="11" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true">
+                        <path class="wpmvc-debug-sort-up" d="M11.5 15a.5.5 0 0 0 .5-.5V2.707l3.146 3.147a.5.5 0 0 0 .708-.708l-4-4a.5.5 0 0 0-.708 0l-4 4a.5.5 0 1 0 .708.708L11 2.707V14.5a.5.5 0 0 0 .5.5z"/>
+                        <path class="wpmvc-debug-sort-down" d="M4.5 1a.5.5 0 0 1 .5.5v11.793l3.146-3.147a.5.5 0 0 1 .708.708l-4 4a.5.5 0 0 1-.708 0l-4-4a.5.5 0 0 1 .708-.708L4 13.293V1.5a.5.5 0 0 1 .5-.5z"/>
+                    </svg>
+                </button>
+            </span>
         </span>
     </div>
 
     <div class="wpmvc-accordion">
         <?php foreach ( $data['queries'] as $index => $query ) : ?>
-            <div class="wpmvc-accordion-item" data-wpmvc-debug-item="<?php echo esc_attr( $query['type'] ); ?>">
+            <div
+                class="wpmvc-accordion-item"
+                data-wpmvc-debug-item="<?php echo esc_attr( $query['type'] ); ?>"
+                data-wpmvc-debug-sort-time="<?php echo esc_attr( sprintf( '%.6F', $query['time'] ) ); ?>"
+            >
                 <h2 class="wpmvc-accordion-header">
                     <button type="button" class="wpmvc-accordion-button wpmvc-collapsed" data-wpmvc-debug-accordion>
                         <span class="wpmvc-debug-queries-row">

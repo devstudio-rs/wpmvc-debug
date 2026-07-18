@@ -85,7 +85,8 @@ is a bootstrap component, and the config it was declared with.
 ### Database
 
 The queries executed during the request (from `$wpdb->queries`), with a summary
-of the query count, total time, slow queries and the database server. Each query
+of the query count, total time, slow queries and the database server. The list
+is searchable, filterable by query type and sortable by time. Each query
 expands to show the full SQL, its timing and the call stack that triggered it.
 
 ![Database](docs/images/database.png)
@@ -98,6 +99,24 @@ and each expands to its full message (including multi-line stack traces).
 Administrators get a **Clear** button per log.
 
 ![Logs](docs/images/logs.png)
+
+### Events
+
+The WordPress actions and filters fired during the request, aggregated per
+hook: type, fire count, total execution time and when it first fired. The
+list is searchable, filterable by type and sortable by time (to surface the
+slowest hooks first). Each row expands to timing details and the callbacks
+registered on the hook
+(priority, source, file and line). A **Timeline** sub-tab charts every hook
+as a bar — positioned at its first fire within the request, sized by the
+total time spent in its callbacks.
+
+Capture starts when the component boots, so hooks fired earlier in the
+bootstrap (mu-plugins and plugins loading) are not recorded. High-frequency
+noise hooks (translations, escaping, per-option/transient reads) are
+excluded, and recording is capped at 500 unique hooks per request.
+
+![Events](docs/images/events.png)
 
 ### Scheduled Jobs
 
